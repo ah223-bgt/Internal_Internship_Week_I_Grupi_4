@@ -1,0 +1,43 @@
+Internship Report – Day 1 
+
+Full Name: Dora Ademi 
+
+Group: Gr. 4 
+
+Date: 14 April 2026  
+
+1. Environment Setup 
+
+We set up the official group repository named: Internal_Internship_Week_I_Grupi_X. 
+
+We added the practice leads (enion.ismaili@bgt.school and egzon.salihu@bgt.school) as collaborators. 
+
+I created my personal branch using the format Name-Surname. 
+
+2. Code Development (C Language) 
+
+I created a folder named Day1 within my personal branch. 
+
+I wrote the code for hello_world.c to test the basic C environment. 
+
+I completed my student details in the student_profile.c file. 
+
+3. Git Workflow 
+
+I used git add and git commit to save my changes locally. 
+
+I performed a git push exclusively to my personal branch. 
+
+I ensured that no work was pushed to the main branch to avoid automatic deletion by the script. 
+
+ 
+
+Quick Reminder: Make sure the filename is exactly Day1_Documentation.docx. 
+
+I’m always open to corrections if I ever miss the mark or get something wrong. The best way to do this is to just tell me what I got wrong, or what I need to know. 
+
+You can always turn this off in your settings. 
+
+Would you like me to help you translate any of the C code comments into English as well, or are you all set for today? 
+
+ 
