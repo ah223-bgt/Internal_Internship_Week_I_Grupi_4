@@ -1,0 +1,11 @@
+**Day 1 – Report**
+
+During Day 1 of the Internal Internship, I learned how to set up a basic development environment for the C programming language. I installed and verified a working C compiler on my computer and created my first simple program in C.
+
+I created a basic **Hello World** program and learned how to compile and run it using the terminal. This helped me understand the structure of a simple C program, including the use of `#include <stdio.h>`, the `main()` function, and the `printf()` statement.
+
+I also learned the basics of Git and GitHub workflow. I created and worked only in my personal branch using the required Name-Surname format. Inside my branch, I created the **Day1** folder and added the required files such as `hello_world.c` and `student_profile.c`.
+
+Additionally, I practiced using basic Git commands like `git add`, `git commit`, and `git push` to save and upload my work to the repository. I understood the importance of not pushing changes to the main branch and keeping all work inside my personal branch.
+
+By the end of the task, I successfully created the required structure, compiled and executed my programs, and pushed my work to my personal branch in the repository.
