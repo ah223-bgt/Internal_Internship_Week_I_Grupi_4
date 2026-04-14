@@ -1,0 +1,87 @@
+# Day 1 Report – What I Learned
+
+## Student Information
+
+Name: Deon Osmani
+Class: 11th Grade
+School: British Gymnasium of Technology
+
+---
+
+## Introduction
+
+On the first day of the Internal Internship, I focused on learning the basics of C programming and understanding how to use Git and GitHub for collaborative work. The main goal was to set up everything correctly and start working with a proper development workflow.
+
+---
+
+## What I Learned About C Programming
+
+Today I learned how to install and use a C compiler (GCC) on my computer. I understood how to write a basic C program and how the structure of a C program works, including the use of libraries like stdio.h and the main() function.
+
+I created and executed my first program, which was the “Hello World” program. This helped me understand how to compile and run code using the terminal. I also learned how to create another simple program that displays a student profile with fixed data such as name, surname, school, and class.
+
+---
+
+## What I Learned About Git and GitHub
+
+I learned the basic purpose of Git as a version control system and GitHub as a platform for storing and sharing code. I understood how to clone a repository, create a personal branch, and work without affecting the main branch.
+
+One of the most important things I learned is that I should never push my work directly to the main branch. Instead, I should always use my personal branch and push my changes there.
+
+---
+
+## Git Commands and Their Explanation
+
+During the tasks, I practiced several important Git commands and understood what each one does:
+
+* **git init**
+  Initializes a new Git repository in a local folder. It prepares the project to start tracking changes.
+
+* **git clone**
+  Copies an existing repository from GitHub to my computer so I can work on it locally.
+
+* **git add**
+  Adds files to the staging area before committing. It tells Git which changes should be saved.
+
+* **git commit**
+  Saves the changes with a message. It creates a checkpoint in the project history.
+
+* **git status**
+  Shows the current state of the project, including modified or untracked files.
+
+* **git branch**
+  Displays all branches or helps create new ones. It is used to manage different versions of work.
+
+* **git checkout**
+  Switches between branches or restores files from a specific state.
+
+* **git switch**
+  A newer and simpler way to switch between branches or create a new one.
+
+* **git merge**
+  Combines changes from one branch into another, usually used to merge work into main.
+
+* **git pull**
+  Fetches and updates the local repository with the latest changes from GitHub.
+
+* **git push**
+  Uploads local changes to the remote repository on GitHub.
+
+* **git worktree**
+  Allows working on multiple branches at the same time in separate folders.
+
+---
+
+## What I Learned About Project Organization
+
+I learned how to organize my files properly inside a repository. I created a folder called Day1 and placed all required files inside it with the correct names. I understood that naming is case-sensitive and must be exactly as required.
+
+This helped me realize the importance of clean structure and organization when working on projects.
+
+---
+
+## Conclusion
+
+Overall, today I learned the fundamentals of C programming and the basics of using Git and GitHub. I now understand how to create and run simple programs, manage my code using branches, and keep my project organized. These skills are very important and will help me continue working more efficiently during the internship.
+
+---
