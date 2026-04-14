@@ -1,0 +1,81 @@
+Day1 Documentation
+
+Internal Internship – Week 1 – Day 1
+Student: Art Halili
+Class: XI/3
+
+1. Overview
+
+On Day 1, the main focus was to set up the development environment, learn the basics of C programming, and understand how to use Git and GitHub for collaboration. This documentation explains the steps followed and the work completed.
+
+2. C Compiler Installation
+
+A C compiler was installed on the computer to allow writing and running C programs. After installation, the compiler was tested to ensure it works correctly.
+
+Verification:
+A simple program was compiled and executed successfully, confirming that the setup was correct.
+
+3. Hello World Program
+
+The first program created was a simple “Hello World” in C.
+
+Purpose:
+To test the compiler and understand the structure of a basic C program.
+
+Key Concepts Learned:
+
+Use of #include <stdio.h>
+Structure of the main() function
+Output using printf()
+4. Student Profile Program
+
+A second program was created to display a student profile.
+
+Purpose:
+To practice using variables and printing formatted output.
+
+Concepts Used:
+
+Variables (string and integer)
+Data types (char, int)
+Output formatting with printf()
+5. Git and GitHub Workflow
+
+Git and GitHub were used to manage the project and enable collaboration.
+
+Steps Followed:
+
+Repository was created
+Repository was cloned locally
+Personal branch was created
+Files were added and committed
+Changes were pushed to GitHub
+6. Branch Rules
+Each student worked in their own branch
+No work was pushed to the main branch
+Branch name followed the format: Name-Surname
+
+This ensured safe and organized collaboration.
+
+7. Project Structure
+
+The following structure was created:
+
+Day1/
+
+hello_world.c
+student_profile.c
+Day1_Documentation.docx
+
+All names were case-sensitive and followed exactly as required.
+
+8. Git Commands Used
+git clone – to download the repository
+git branch – to create a personal branch
+git switch – to move to the branch
+git add – to stage files
+git commit – to save changes
+git push – to upload work
+9. Conclusion
+
+Day 1 was successfully completed. The environment was set up, basic programs were created, and GitHub workflow was understood. This provides a strong base for future internship tasks.
