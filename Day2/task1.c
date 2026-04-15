@@ -1,33 +1,35 @@
-#include <stdio.h>
+#include <stdio.h>   // për përdorimin e printf dhe scanf
 
-int main() {
+int main() {         // pika ku fillon programi
 
-    int mosha;          // variabel per moshen
-    char iniciali;      // nje shkronje
-    float gjatesia;     // numer me presje
-    double mesatarja;   // numer me presje me i sakte
-    short nr1 = 5;      // numer i vogel
-    long nr2 = 100000;  // numer i madh
+    int mosha;          // variabël për moshën (numër i plotë)
+    char iniciali;      // variabël për një shkronjë (char)
+    float gjatesia;     // variabël për numër me presje (float)
+    double mesatarja;   // variabël për numër me presje më të saktë (double)
+    short nr1 = 5;      // variabël short me vlerë të vogël
+    long nr2 = 100000;  // variabël long me vlerë të madhe
 
-    printf("Shkruaj moshen: ");
-    scanf("%d", &mosha);
+    printf("Shkruaj moshen: ");   // kërkon nga përdoruesi të shkruajë moshën
+    scanf("%d", &mosha);          // merr numrin dhe e ruan në variablën mosha
 
-    printf("Shkruaj inicialin: ");
-    scanf(" %c", &iniciali);
+    printf("Shkruaj inicialin: ");   // kërkon një shkronjë nga përdoruesi
+    scanf(" %c", &iniciali);         // merr shkronjën dhe e ruan te iniciali
 
-    printf("Shkruaj gjatesine: ");
-    scanf("%f", &gjatesia);
+    printf("Shkruaj gjatesine: ");   // kërkon gjatësinë
+    scanf("%f", &gjatesia);          // merr numër me presje dhe e ruan te gjatesia
 
-    printf("Shkruaj mesataren: ");
-    scanf("%lf", &mesatarja);
+    printf("Shkruaj mesataren: ");   // kërkon mesataren
+    scanf("%lf", &mesatarja);        // merr numër double dhe e ruan te mesatarja
 
-    printf("\n--- PROFILI ---\n");
-    printf("Mosha: %d\n", mosha);
-    printf("Iniciali: %c\n", iniciali);
-    printf("Gjatesia: %f\n", gjatesia);
-    printf("Mesatarja: %lf\n", mesatarja);
-    printf("Short value: %d\n", nr1);
-    printf("Long value: %ld\n", nr2);
+    printf("\n--- PROFILI ---\n");   // printon titullin e profilit (rresht i ri)
 
-    return 0;
+    printf("Mosha: %d\n", mosha);         // printon moshën
+    printf("Iniciali: %c\n", iniciali);   // printon inicialin
+    printf("Gjatesia: %f\n", gjatesia);   // printon gjatësinë
+    printf("Mesatarja: %lf\n", mesatarja); // printon mesataren
+    printf("Short value: %d\n", nr1);     // printon variablën short
+    printf("Long value: %ld\n", nr2);     // printon variablën long
+
+    return 0;   // përfundon programin me sukses
+
 }
