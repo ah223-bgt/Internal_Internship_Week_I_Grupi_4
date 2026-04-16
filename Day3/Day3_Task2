@@ -1,0 +1,52 @@
+#include <stdio.h>
+
+int main() {
+    int start, end;
+    int evenCount = 0, oddCount = 0;
+    int evenSum = 0, oddSum = 0;
+    int total = 0;
+
+    // Input
+    printf("Shkruaj fillimin e intervalit: ");
+    scanf("%d", &start);
+
+    printf("Shkruaj fundin e intervalit: ");
+    scanf("%d", &end);
+
+    // Validim
+    if (start > end) {
+        printf("Interval i pavlefshem!\n");
+        return 0;
+    }
+
+    // Analiza me for loop
+    for (int i = start; i <= end; i++) {
+        total++;
+
+        if (i % 2 == 0) {
+            evenCount++;
+            evenSum += i;
+        } else {
+            oddCount++;
+            oddSum += i;
+        }
+    }
+
+    // Output
+    printf("\n--- REZULTATI ---\n");
+    printf("Intervali: %d - %d\n", start, end);
+    printf("Totali i numrave: %d\n", total);
+
+    printf("Numra çift: %d | Shuma: %d\n", evenCount, evenSum);
+    printf("Numra tek: %d | Shuma: %d\n", oddCount, oddSum);
+
+    if (evenCount > oddCount) {
+        printf("Ka me shume numra çift.\n");
+    } else if (oddCount > evenCount) {
+        printf("Ka me shume numra tek.\n");
+    } else {
+        printf("Numrat janë të barabartë.\n");
+    }
+
+    return 0;
+}
