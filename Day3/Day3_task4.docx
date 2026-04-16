@@ -1,0 +1,105 @@
+Day 3 – Pointer-Based Numeric Program
+1. Program Description
+
+This program demonstrates the basic use of pointers in the C programming language. It works with numeric values by reading user input, accessing values through pointers, modifying a value using a pointer, and displaying the results clearly.
+
+The program uses:
+
+one integer (int)
+one decimal number (double)
+pointers for both variables
+
+The goal is to understand how memory addresses and pointers work in practice.
+
+2. Logic Used
+2.1 Variable and Pointer Declaration
+
+The program declares:
+
+an integer variable (numri)
+a double variable (nota)
+pointers for both variables (pNumri, pNota)
+
+Pointers are declared using *, which indicates that the variable will store an address.
+
+2.2 Assigning Addresses
+
+The addresses of the variables are assigned to the pointers using the & operator:
+
+&numri gives the memory address of the integer
+&nota gives the memory address of the double
+
+Example:
+
+pNumri = &numri;
+pNota = &nota;
+2.3 Accessing Values Through Pointers
+
+The program displays:
+
+the value directly
+the memory address
+the value accessed through the pointer using *
+
+Example:
+
+*pNumri
+
+This means “the value stored at the address held by the pointer”.
+
+2.4 Modifying Values Using Pointers
+
+The program modifies the integer value through the pointer:
+
+*pNumri = *pNumri + 10;
+
+This increases the value by 10 without directly using the variable name.
+
+2.5 Decision Making
+
+After modifying the value, the program uses if/else to:
+
+check if the value increased, decreased, or stayed the same
+check if the final value is within a specific range (0–50)
+3. Program Flow
+The user enters an integer and a decimal number
+The program assigns pointers to both variables
+It displays:
+original values
+memory addresses
+values accessed through pointers
+The integer is modified using the pointer
+The program compares values before and after modification
+A final message is displayed based on the result
+4. Test Cases (Summary)
+
+The program was tested with different types of inputs, including:
+
+positive values (e.g., 10 → 20)
+zero (0 → 10)
+negative values (e.g., -5 → 5)
+boundary values (e.g., 40 → 50)
+large values (e.g., 100 → 110)
+
+The results confirmed that:
+
+pointer-based modification works correctly
+value comparisons are accurate
+range checking functions as expected
+5. Issues and Fixes
+
+During testing, a common issue was printing memory addresses incorrectly.
+
+Incorrect:
+
+printf("%d", pNumri);
+
+Correct:
+
+printf("%p", (void*)pNumri);
+
+The %p format specifier must be used for memory addresses.
+
+6. Conclusion
+
+This program demonstrates how pointers work in C by linking variables to memory addresses and manipulating values indirectly. It shows how pointers can be used to access and modify data, making them a powerful feature in low-level programming.
