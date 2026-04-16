@@ -1,0 +1,37 @@
+Dokument i shkurtër (English – për .docx)
+Day 3 – Even and Odd Number Analyzer
+1. Program Description
+
+This program analyzes a range of numbers entered by the user. It counts how many numbers are even and how many are odd, and also calculates the sum of each group.
+
+The goal is to demonstrate the use of for loops, conditional statements (if/else), and arithmetic operations.
+
+2. Logic Used
+
+The program works in the following steps:
+
+2.1 Input and Validation
+
+The user enters a starting and ending value for the range. If the starting value is greater than the ending value, the program displays an error message and stops execution.
+
+2.2 Loop Processing
+
+A for loop is used to go through each number in the interval. For each number:
+
+The program checks if it is even using number % 2 == 0
+Otherwise, it is considered odd
+2.3 Counting and Summing
+Even numbers are counted and added to sumEven
+Odd numbers are counted and added to sumOdd
+3. Output
+
+At the end, the program displays:
+
+The interval
+Total numbers
+Count and sum of even numbers
+Count and sum of odd numbers
+Which category has more numbers
+4. Conclusion
+
+This program demonstrates how to use loops and conditions to analyze numerical data. It shows how to process a range of values and produce meaningful results based on logical checks.
