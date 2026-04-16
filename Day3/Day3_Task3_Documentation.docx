@@ -1,0 +1,42 @@
+Dokument i shkurtër 
+Day 3 – Sum Comparison Program
+1. Program Description
+
+This program analyzes a range of numbers and calculates sums based on specific conditions. It separates numbers into two categories and compares their total sums.
+
+The goal is to demonstrate the use of for loops, conditional statements, and logical separation of categories.
+
+2. Logic Used
+2.1 Input and Validation
+
+The user enters the start and end values of the interval. If the start value is greater than the end value, the program stops and displays an error message.
+
+2.2 Loop Processing
+
+A for loop is used to iterate through all numbers in the interval.
+
+For each number:
+
+If it is divisible by 3 → added to category 1
+Else if it is divisible by 5 → added to category 2
+
+This ensures no number is counted in both categories.
+
+2.3 Counting and Summing
+Category 1: numbers divisible by 3
+Category 2: numbers divisible by 5 but not by 3
+
+Each category tracks:
+
+number of values
+total sum
+3. Output
+
+The program displays:
+
+the interval
+count and sum for both categories
+comparison of sums
+4. Conclusion
+
+This program demonstrates how to apply conditions within loops to categorize data and compare results. It shows how to avoid overlapping conditions and produce clear analytical output.
