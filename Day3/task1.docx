@@ -1,0 +1,29 @@
+Day 3 – Task 1
+Introduction
+
+This program is created in the C programming language and uses for loops to generate a simple pattern with stars or numbers. The program takes input from the user and displays the pattern based on the selected option.
+
+What the program does
+
+The program asks the user to enter a number between 1 and 12.
+After that, the user chooses whether to display a pattern with stars or numbers.
+The program then prints the pattern in multiple lines.
+
+Logic used
+
+The program uses two for loops:
+
+one loop to control the rows
+another loop to print elements inside each row
+
+It also uses if/else statements to check the user’s choice and to validate the input.
+
+How it works
+
+First, the program takes input from the user.
+Then it checks if the number is valid.
+Finally, it prints the selected pattern using loops.
+
+Conclusion
+
+This program demonstrates the use of for loops and conditions in C to create structured and readable output.
