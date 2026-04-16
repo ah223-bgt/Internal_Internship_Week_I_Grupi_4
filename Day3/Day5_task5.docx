@@ -1,0 +1,41 @@
+Day 3 – Enum-Based Selection Program
+1. Program Description
+
+This program uses an enum to represent a limited set of values for user levels. The user selects a level, and the program responds with a specific message based on the selection.
+
+The goal is to demonstrate the use of enums, loops, and conditional logic.
+
+2. Logic Used
+2.1 Enum Definition
+
+An enum is used to define four levels:
+
+Beginner
+Intermediate
+Advanced
+Expert
+
+Each level is mapped to a numeric value.
+
+2.2 Loop for Multiple Inputs
+
+A for loop is used to simulate three users entering their choices.
+
+2.3 Decision Making
+
+A switch statement checks the user’s choice and prints the corresponding message.
+
+2.4 Validation
+
+Invalid inputs are handled using the default case, and a counter is updated.
+
+3. Output
+
+The program displays:
+
+a message for each selection
+total number of valid choices
+total number of invalid choices
+4. Conclusion
+
+This program demonstrates how enums can simplify working with a fixed set of values and improve readability. It also shows how to combine loops and conditional logic to handle multiple inputs efficiently.
