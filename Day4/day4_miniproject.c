@@ -15,10 +15,11 @@ int main() {
     int choice;
 
     while (1) {
-        printf("\n--- Student Progress Tracker ---\n");
+        printf("\n--- Student Progress Tracker (v3) ---\n");
         printf("1. Add Student Record\n");
         printf("2. Display All Records\n");
-        printf("3. Exit\n");
+        printf("3. Generate Analytical Report\n");
+        printf("4. Exit\n");
         printf("Select an option: ");
         
         if (scanf("%d", &choice) != 1) {
@@ -32,10 +33,8 @@ int main() {
                 if (currentCount < MAX_RECORDS) {
                     printf("Enter ID: ");
                     scanf("%d", &ids[currentCount]);
-                    
                     printf("Enter Name: ");
                     scanf("%s", names[currentCount]);
-                    
                     printf("Enter Score (0-100): ");
                     scanf("%d", &scores[currentCount]);
 
@@ -51,11 +50,9 @@ int main() {
                             while (getchar() != '\n');
                         }
                     }
-
                     currentCount++;
-                    printf("Record added successfully!\n");
                 } else {
-                    printf("Error: Maximum limit reached (%d records).\n", MAX_RECORDS);
+                    printf("Error: Maximum limit reached!\n");
                 }
                 break;
 
@@ -63,26 +60,48 @@ int main() {
                 if (currentCount == 0) {
                     printf("No records found.\n");
                 } else {
-                    printf("\n--- Registered Students ---\n");
                     for (int i = 0; i < currentCount; i++) {
-                        printf("ID: %d | Name: %s | Score: %d | Status: ", 
-                               ids[i], names[i], scores[i]);
-                        
-                        switch (statuses[i]) {
-                            case IN_PROGRESS: printf("In Progress\n"); break;
-                            case COMPLETED: printf("Completed\n"); break;
-                            case FAILED: printf("Failed\n"); break;
-                        }
+                        printf("ID: %d | Name: %s | Score: %d | Status: %d\n", 
+                               ids[i], names[i], scores[i], statuses[i]);
                     }
                 }
                 break;
 
             case 3:
-                printf("Exiting program...\n");
+                if (currentCount == 0) {
+                    printf("Report: No data available to analyze.\n");
+                } else {
+                    int completedCount = 0;
+                    float totalScore = 0;
+                    int highestScore = -1;
+
+                    for (int i = 0; i < currentCount; i++) {
+                        if (statuses[i] == COMPLETED) completedCount++;
+                        totalScore += scores[i];
+                        if (scores[i] > highestScore) highestScore = scores[i];
+                    }
+
+                    float average = totalScore / currentCount;
+
+                    printf("\n--- Analytical Report ---\n");
+                    printf("Total Students: %d\n", currentCount);
+                    printf("Completed Tasks: %d\n", completedCount);
+                    printf("Average Score: %.2f\n", average);
+                    printf("Highest Score: %d\n", highestScore);
+
+                    if (average >= 50) {
+                        printf("Performance: Overall progress is Satisfactory.\n");
+                    } else {
+                        printf("Performance: Overall progress is Below Expectations.\n");
+                    }
+                }
+                break;
+
+            case 4:
                 return 0;
 
             default:
-                printf("Option %d is invalid. Please try again.\n", choice);
+                printf("Invalid option!\n");
         }
     }
     return 0;
