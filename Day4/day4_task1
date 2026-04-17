@@ -1,1 +1,58 @@
+#include <stdio.h>
 
+#define MAX 5   // kapaciteti maksimal i regjistrimeve
+
+int main() {
+    int ages[MAX];
+    int count = 0;
+    int choice;
+
+    do {
+        // MENU
+        printf("\n=== MENU ===\n");
+        printf("1. Shto regjistrim\n");
+        printf("2. Shfaq te gjitha regjistrimet\n");
+        printf("3. Dil\n");
+        printf("Zgjedhja: ");
+        scanf("%d", &choice);
+
+        // SHTO REGJISTRIM
+        if (choice == 1) {
+
+            if (count >= MAX) {
+                printf("Nuk mund te shtohet me! Kapaciteti eshte i mbushur.\n");
+            } else {
+                printf("Shkruani moshen: ");
+                scanf("%d", &ages[count]);
+                count++;
+                printf("Regjistrimi u shtua me sukses!\n");
+            }
+        }
+
+        // SHFAQ REGJISTRIMET
+        else if (choice == 2) {
+
+            if (count == 0) {
+                printf("Nuk ka regjistrime ende.\n");
+            } else {
+                printf("\n=== REGJISTRIMET ===\n");
+                for (int i = 0; i < count; i++) {
+                    printf("Regjistrimi %d: mosha = %d\n", i + 1, ages[i]);
+                }
+            }
+        }
+
+        // DALJE
+        else if (choice == 3) {
+            printf("Duke dale nga programi...\n");
+        }
+
+        // INPUT I PAVLEFSHEM
+        else {
+            printf("Zgjedhje e pavlefshme!\n");
+        }
+
+    } while (choice != 3);
+
+    return 0;
+}
