@@ -5,8 +5,8 @@
 
 typedef enum {
     AKTIV = 1,
-    KALOI = 2,
-    RREZOI = 3
+    KALOI,
+    RREZOI
 } Status;
 
 typedef struct {
@@ -19,6 +19,8 @@ typedef struct {
 Student s[MAX];
 int count = 0;
 
+// ===== HELPER FUNCTIONS =====
+
 // status -> tekst
 const char* getStatus(Status st) {
     switch (st) {
@@ -29,11 +31,24 @@ const char* getStatus(Status st) {
     }
 }
 
+// gjej student sipas ID (ULJE e repetition)
+int findStudentIndex(int id) {
+    for (int i = 0; i < count; i++)
+        if (s[i].id == id)
+            return i;
+    return -1;
+}
+
+// header clean
+void printHeader(char title[]) {
+    printf("\n===== %s =====\n", title);
+}
+
 // zgjedh status
 Status chooseStatus() {
     int choice;
     while (1) {
-        printf("\n1.Aktiv  2.Kaloi  3.Rrezoi\nZgjedh: ");
+        printf("1.Aktiv  2.Kaloi  3.Rrezoi\nZgjedh: ");
         scanf("%d", &choice);
 
         switch (choice) {
@@ -45,12 +60,15 @@ Status chooseStatus() {
     }
 }
 
-// ADD
+// ===== CORE FUNCTIONS =====
+
 void addStudent() {
     if (count >= MAX) {
         printf("Lista plote!\n");
         return;
     }
+
+    printHeader("SHTO STUDENT");
 
     printf("Emri: ");
     scanf("%s", s[count].name);
@@ -62,21 +80,26 @@ void addStudent() {
     s[count].status = chooseStatus();
 
     count++;
+    printf("U shtua me sukses!\n");
 }
 
-// SHOW
 void showStudents() {
     if (!count) {
         printf("Nuk ka studente.\n");
         return;
     }
 
-    for (int i = 0; i < count; i++)
-        printf("%d | %s | %.1f | %s\n",
+    printHeader("LISTA");
+
+    printf("ID   Emri        Nota   Status\n");
+    printf("--------------------------------\n");
+
+    for (int i = 0; i < count; i++) {
+        printf("%-4d %-10s %-6.1f %-10s\n",
                s[i].id, s[i].name, s[i].grade, getStatus(s[i].status));
+    }
 }
 
-// REPORT
 void showReport() {
     if (!count) return;
 
@@ -89,138 +112,103 @@ void showReport() {
 
         if (g > max) max = g;
         if (g < min) min = g;
-
         if (s[i].status == KALOI) passed++;
     }
 
     float avg = sum / count;
 
-    printf("\nTotal: %d | Kaluan: %d | Avg: %.2f | Max: %.1f | Min: %.1f\n",
+    printHeader("RAPORT");
+
+    printf("Total: %d\nKaluan: %d\nMesatarja: %.2f\nMax: %.1f\nMin: %.1f\n",
            count, passed, avg, max, min);
 }
 
-// UPDATE me pointer (task4)
 void updateStudent(int *id, float newGrade) {
-    for (int i = 0; i < count; i++) {
-        if (s[i].id == *id) {
-            s[i].grade = newGrade;
-            s[i].status = (newGrade >= 5) ? KALOI : RREZOI;
-            printf("Updated!\n");
-            return;
-        }
-    }
-    printf("Nuk u gjet!\n");
-}
-
-// ✏️ TASK 7 – EDIT (ndrysho 2 fusha)
-void editStudent() {
-    if (!count) return;
-
-    int id;
-    printf("ID per edit: ");
-    scanf("%d", &id);
-
-    for (int i = 0; i < count; i++) {
-        if (s[i].id == id) {
-
-            printf("Emri i ri: ");
-            scanf("%s", s[i].name);
-
-            printf("Nota e re: ");
-            scanf("%f", &s[i].grade);
-
-            // update status automatik
-            s[i].status = (s[i].grade >= 5) ? KALOI : RREZOI;
-
-            printf("U editua me sukses!\n");
-            return;
-        }
-    }
-
-    printf("Studenti nuk u gjet!\n");
-}
-
-// 🗑️ TASK 7 – DELETE
-void deleteStudent() {
-    if (!count) return;
-
-    int id;
-    printf("ID per fshirje: ");
-    scanf("%d", &id);
-
-    int index = -1;
-
-    // gjej index
-    for (int i = 0; i < count; i++) {
-        if (s[i].id == id) {
-            index = i;
-            break;
-        }
-    }
+    int index = findStudentIndex(*id);
 
     if (index == -1) {
-        printf("Studenti nuk u gjet!\n");
+        printf("Nuk u gjet!\n");
         return;
     }
 
-    // shift array (shum e rendesishme)
-    for (int i = index; i < count - 1; i++) {
+    s[index].grade = newGrade;
+    s[index].status = (newGrade >= 5) ? KALOI : RREZOI;
+
+    printf("U perditesua!\n");
+}
+
+void editStudent() {
+    int id;
+    printf("ID: ");
+    scanf("%d", &id);
+
+    int index = findStudentIndex(id);
+
+    if (index == -1) {
+        printf("Nuk u gjet!\n");
+        return;
+    }
+
+    printf("Emri i ri: ");
+    scanf("%s", s[index].name);
+
+    printf("Nota e re: ");
+    scanf("%f", &s[index].grade);
+
+    s[index].status = (s[index].grade >= 5) ? KALOI : RREZOI;
+
+    printf("U editua!\n");
+}
+
+void deleteStudent() {
+    int id;
+    printf("ID: ");
+    scanf("%d", &id);
+
+    int index = findStudentIndex(id);
+
+    if (index == -1) {
+        printf("Nuk u gjet!\n");
+        return;
+    }
+
+    for (int i = index; i < count - 1; i++)
         s[i] = s[i + 1];
-    }
 
-    count--; // update count
+    count--;
 
-    // rregullo ID-t (opsionale por clean)
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++)
         s[i].id = i + 1;
-    }
 
-    printf("Studenti u fshi me sukses!\n");
+    printf("U fshi!\n");
 }
 
-// SEARCH
 void searchStudent() {
-    if (!count) return;
+    int id;
+    printf("ID: ");
+    scanf("%d", &id);
 
-    int opt, found = 0;
-    printf("1.ID  2.Emri: ");
-    scanf("%d", &opt);
+    int index = findStudentIndex(id);
 
-    if (opt == 1) {
-        int id; scanf("%d", &id);
-
-        for (int i = 0; i < count; i++) {
-            if (s[i].id == id) {
-                found = 1;
-                printf("%d | %s | %.1f\n", s[i].id, s[i].name, s[i].grade);
-
-                if (s[i].grade < 5)
-                    printf("Warning: Deshton\n");
-                else if (s[i].grade < 7)
-                    printf("Ok por mundet ma mire\n");
-                else
-                    printf("Shume mire\n");
-            }
-        }
-    }
-    else if (opt == 2) {
-        char name[30]; scanf("%s", name);
-
-        for (int i = 0; i < count; i++) {
-            if (strcmp(s[i].name, name) == 0) {
-                found = 1;
-                printf("%d | %s | %.1f\n", s[i].id, s[i].name, s[i].grade);
-            }
-        }
+    if (index == -1) {
+        printf("Nuk u gjet!\n");
+        return;
     }
 
-    if (!found) printf("Nuk u gjet!\n");
+    Student st = s[index];
+
+    printf("%d | %s | %.1f | %s\n",
+           st.id, st.name, st.grade, getStatus(st.status));
+
+    if (st.grade < 5)
+        printf("Warning: Deshton\n");
+    else if (st.grade < 7)
+        printf("Mesatare\n");
+    else
+        printf("Shume mire\n");
 }
 
-// SORT
 void sortStudents() {
-    if (!count) return;
-
     for (int i = 0; i < count - 1; i++) {
         for (int j = 0; j < count - i - 1; j++) {
             if (s[j].grade < s[j + 1].grade) {
@@ -231,17 +219,27 @@ void sortStudents() {
         }
     }
 
-    printf("\n--- RANKING ---\n");
+    printHeader("RANKING");
+
     for (int i = 0; i < count; i++)
         printf("#%d %s (%.1f)\n", i + 1, s[i].name, s[i].grade);
 }
 
-// MAIN
+// ===== MENU =====
+
+void showMenu() {
+    printf("\n1.Add 2.Show 3.Report 4.Update 5.Search\n");
+    printf("6.Rank 7.Edit 8.Delete 0.Exit\n");
+    printf("Zgjedh: ");
+}
+
+// ===== MAIN =====
+
 int main() {
     int c;
 
     while (1) {
-        printf("\n1.Add 2.Show 3.Report 4.Update 5.Search 6.Rank 7.Edit 8.Delete 0.Exit\n");
+        showMenu();
         scanf("%d", &c);
 
         switch (c) {
