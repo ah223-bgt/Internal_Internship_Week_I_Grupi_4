@@ -1,0 +1,201 @@
+#include <stdio.h>
+
+#define MAX 10
+
+enum Status {
+    NEVOJITET_PUNE = 1,
+    MESATAR,
+    SHKELQYESHEM
+};
+
+struct Student {
+    int id;
+    char name[30];
+    float progress;
+    enum Status status;
+};
+
+// SHFAQ
+void showStudent(struct Student *s) {
+    printf("ID:%d | %s | %.2f | ", s->id, s->name, s->progress);
+
+    if (s->status == NEVOJITET_PUNE)
+        printf("Nevojitet pune\n");
+    else if (s->status == MESATAR)
+        printf("Mesatar\n");
+    else
+        printf("Shkelqyeshem\n");
+}
+
+// POINTER UPDATE
+void updateProgress(struct Student *s) {
+    float p;
+    printf("Progresi i ri: ");
+    scanf("%f", &p);
+
+    if (p < 0 || p > 100) {
+        printf("Gabim!\n");
+        return;
+    }
+
+    s->progress = p;
+
+    if (p < 50)
+        s->status = NEVOJITET_PUNE;
+    else if (p < 80)
+        s->status = MESATAR;
+    else
+        s->status = SHKELQYESHEM;
+}
+
+// 🔥 EDIT STUDENT (ndryshon 2 fusha)
+void editStudent(struct Student *s) {
+    printf("Emri i ri: ");
+    scanf("%s", s->name);
+
+    updateProgress(s); // përdor pointer
+}
+
+// 🔥 DELETE STUDENT
+void deleteStudent(struct Student students[], int *count, int id) {
+    int index = -1;
+
+    for (int i = 0; i < *count; i++) {
+        if (students[i].id == id) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        printf("Nuk u gjet studenti!\n");
+        return;
+    }
+
+    // zhvendos elementet majtas
+    for (int i = index; i < *count - 1; i++) {
+        students[i] = students[i + 1];
+    }
+
+    (*count)--; // zvogëlo numrin
+
+    printf("Studenti u fshi me sukses!\n");
+}
+
+// SORT
+void sortStudents(struct Student s[], int count) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (s[j].progress < s[j + 1].progress) {
+                struct Student temp = s[j];
+                s[j] = s[j + 1];
+                s[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    struct Student students[MAX];
+    int count = 0, choice;
+
+    do {
+        printf("\n===== MENU =====\n");
+        printf("1. Shto\n");
+        printf("2. Shfaq\n");
+        printf("3. Update\n");
+        printf("4. Rendit\n");
+        printf("5. Edit\n");     // NEW
+        printf("6. Delete\n");   // NEW
+        printf("7. Dil\n");
+        printf("Zgjedhja: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+
+            case 1:
+                if (count >= MAX) {
+                    printf("Full!\n");
+                    break;
+                }
+
+                printf("ID: ");
+                scanf("%d", &students[count].id);
+
+                printf("Emri: ");
+                scanf("%s", students[count].name);
+
+                printf("Progresi: ");
+                scanf("%f", &students[count].progress);
+
+                updateProgress(&students[count]);
+                count++;
+                break;
+
+            case 2:
+                for (int i = 0; i < count; i++)
+                    showStudent(&students[i]);
+                break;
+
+            case 3: {
+                int id;
+                printf("ID: ");
+                scanf("%d", &id);
+
+                for (int i = 0; i < count; i++) {
+                    if (students[i].id == id)
+                        updateProgress(&students[i]);
+                }
+                break;
+            }
+
+            case 4:
+                sortStudents(students, count);
+                printf("\n--- Ranking ---\n");
+                for (int i = 0; i < count; i++) {
+                    printf("%d. ", i + 1);
+                    showStudent(&students[i]);
+                }
+                break;
+
+            case 5: { // EDIT
+                int id;
+                printf("ID: ");
+                scanf("%d", &id);
+
+                int found = 0;
+                for (int i = 0; i < count; i++) {
+                    if (students[i].id == id) {
+                        editStudent(&students[i]);
+                        found = 1;
+                        break;
+                    }
+                }
+
+                if (!found)
+                    printf("Nuk u gjet!\n");
+
+                break;
+            }
+
+            case 6: { // DELETE
+                int id;
+                printf("ID per fshirje: ");
+                scanf("%d", &id);
+
+                deleteStudent(students, &count, id);
+                break;
+            }
+
+            case 7:
+                printf("Dalje...\n");
+                break;
+
+            default:
+                printf("Gabim!\n");
+        }
+
+    } while (choice != 7);
+
+    return 0;
+}
