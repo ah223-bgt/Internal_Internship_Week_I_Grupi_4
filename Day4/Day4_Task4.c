@@ -1,140 +1,51 @@
 #include <stdio.h>
 
-#define MAX_STUDENTS 5
-
-enum Status
-{
-    NEEDS_PRACTICE = 1,
-    GOOD_PROGRESS,
-    EXCELLENT_PROGRESS
-};
-
 struct Student
 {
     int id;
-    char initial;
     float progress;
-    enum Status status;
 };
 
-void setStatus(struct Student *s)
+void updateProgress(struct Student *s)
 {
-    if (s->progress < 50)
-    {
-        s->status = NEEDS_PRACTICE;
-    }
-    else if (s->progress < 80)
-    {
-        s->status = GOOD_PROGRESS;
-    }
-    else
-    {
-        s->status = EXCELLENT_PROGRESS;
-    }
-}
+    float newProgress;
 
-void printStatus(enum Status status)
-{
-    switch (status)
-    {
-        case NEEDS_PRACTICE:
-            printf("Needs Practice");
-            break;
-        case GOOD_PROGRESS:
-            printf("Good Progress");
-            break;
-        case EXCELLENT_PROGRESS:
-            printf("Excellent Progress");
-            break;
-        default:
-            printf("Unknown");
-    }
-}
+    printf("Current progress: %.2f\n", s->progress);
+    printf("Enter new progress: ");
+    scanf("%f", &newProgress);
 
-void addStudent(struct Student students[], int *count)
-{
-    if (*count >= MAX_STUDENTS)
-    {
-        printf("\nMaximum capacity reached.\n");
-        return;
-    }
+    s->progress = newProgress; // ndryshon vlerën reale
 
-    printf("\n--- Add Student ---\n");
-
-    printf("Enter ID: ");
-    scanf("%d", &students[*count].id);
-
-    printf("Enter initial: ");
-    scanf(" %c", &students[*count].initial);
-
-    printf("Enter progress: ");
-    scanf("%f", &students[*count].progress);
-
-    setStatus(&students[*count]);
-
-    printf("\nStudent added successfully.\n");
-    printf("Assigned status: ");
-    printStatus(students[*count].status);
-    printf("\n");
-
-    (*count)++;
-}
-
-void showAllStudents(struct Student students[], int count)
-{
-    int i;
-
-    if (count == 0)
-    {
-        printf("\nNo records found.\n");
-        return;
-    }
-
-    printf("\n--- Student Records ---\n");
-
-    for (i = 0; i < count; i++)
-    {
-        printf("\nStudent #%d\n", i + 1);
-        printf("ID: %d\n", students[i].id);
-        printf("Initial: %c\n", students[i].initial);
-        printf("Progress: %.2f\n", students[i].progress);
-        printf("Status: ");
-        printStatus(students[i].status);
-        printf("\n");
-    }
+    printf("Updated progress: %.2f\n", s->progress);
 }
 
 int main()
 {
-    struct Student students[MAX_STUDENTS];
-    int count = 0;
-    int choice;
+    struct Student students[2] = {
+        {1, 40.0},
+        {2, 70.0}
+    };
 
-    do
+    int id;
+
+    printf("Enter student ID to update: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < 2; i++)
     {
-        printf("\n=== Student Progress Tracker ===\n");
-        printf("1. Add Student\n");
-        printf("2. Show Students\n");
-        printf("3. Exit\n");
-        printf("Choose: ");
-        scanf("%d", &choice);
-
-        switch (choice)
+        if (students[i].id == id)
         {
-            case 1:
-                addStudent(students, &count);
-                break;
-            case 2:
-                showAllStudents(students, count);
-                break;
-            case 3:
-                printf("Exiting program...\n");
-                break;
-            default:
-                printf("Invalid choice.\n");
+            updateProgress(&students[i]); // 🔥 pointer
+            break;
         }
+    }
 
-    } while (choice != 3);
+    printf("\nAfter update:\n");
+
+    for (int i = 0; i < 2; i++)
+    {
+        printf("ID: %d, Progress: %.2f\n", students[i].id, students[i].progress);
+    }
 
     return 0;
 }
