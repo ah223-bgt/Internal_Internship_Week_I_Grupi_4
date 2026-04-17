@@ -24,620 +24,214 @@ void clearInputBuffer() {
 
 const char* getStatusText(enum Status status) {
     switch (status) {
-        case JO_AKTIV:
-            return "Jo Aktiv";
-        case NE_PROGRES:
-            return "Ne Progres";
-        case PERFUNDUAR:
-            return "Perfunduar";
-        case SHKELQYESHEM:
-            return "Shkelqyeshem";
-        default:
-            return "Status i Panjohur";
+        case JO_AKTIV: return "Jo Aktiv";
+        case NE_PROGRES: return "Ne Progres";
+        case PERFUNDUAR: return "Perfunduar";
+        case SHKELQYESHEM: return "Shkelqyeshem";
+        default: return "Status i Panjohur";
     }
 }
 
 void updateStatusByProgress(float progress, enum Status *status) {
-    if (progress == 0) {
-        *status = JO_AKTIV;
-    } else if (progress > 0 && progress < 50) {
-        *status = NE_PROGRES;
-    } else if (progress >= 50 && progress < 85) {
-        *status = PERFUNDUAR;
-    } else {
-        *status = SHKELQYESHEM;
-    }
+    if (progress == 0) *status = JO_AKTIV;
+    else if (progress < 50) *status = NE_PROGRES;
+    else if (progress < 85) *status = PERFUNDUAR;
+    else *status = SHKELQYESHEM;
 }
 
 int idExists(struct Student students[], int count, int id) {
-    for (int i = 0; i < count; i++) {
-        if (students[i].id == id) {
-            return 1;
-        }
-    }
+    for (int i = 0; i < count; i++)
+        if (students[i].id == id) return 1;
     return 0;
 }
 
-void printStudent(struct Student student, int index) {
-    printf("\nRank/Index: %d\n", index + 1);
-    printf("ID: %d\n", student.id);
-    printf("Emri: %s\n", student.name);
-    printf("Progresi: %.2f\n", student.progress);
-    printf("Statusi: %s\n", getStatusText(student.status));
-    printf("-----------------------------\n");
+int findIndexById(struct Student students[], int count, int id) {
+    for (int i = 0; i < count; i++)
+        if (students[i].id == id) return i;
+    return -1;
+}
+
+void printStudent(struct Student s, int i) {
+    printf("\n[%d]\nID: %d\nEmri: %s\nProgresi: %.2f\nStatusi: %s\n------------------\n",
+           i+1, s.id, s.name, s.progress, getStatusText(s.status));
 }
 
 void addStudent(struct Student students[], int *count) {
+    if (*count >= MAX_STUDENTS) {
+        printf("\nLista eshte e plote.\n");
+        return;
+    }
+
     struct Student s;
 
-    if (*count >= MAX_STUDENTS) {
-        printf("\nNuk mund te shtohen me shume regjistrime. Lista eshte e plote.\n");
-        printf("Kapaciteti maksimal eshte %d regjistrime.\n", MAX_STUDENTS);
-        return;
-    }
-
-    printf("\n--- Shto Regjistrim te Ri ---\n");
-
-    printf("Jep ID: ");
-    if (scanf("%d", &s.id) != 1) {
-        printf("ID i pavlefshem.\n");
-        clearInputBuffer();
-        return;
-    }
-
-    if (s.id <= 0) {
-        printf("ID duhet te jete numer pozitiv.\n");
-        return;
+    printf("\nID: ");
+    if (scanf("%d", &s.id) != 1 || s.id <= 0) {
+        printf("ID i pavlefshem.\n"); clearInputBuffer(); return;
     }
 
     if (idExists(students, *count, s.id)) {
-        printf("Ky ID ekziston tashme. Jep nje ID tjeter.\n");
-        return;
+        printf("ID ekziston.\n"); return;
     }
 
-    printf("Jep emrin: ");
+    printf("Emri: ");
     clearInputBuffer();
-    if (fgets(s.name, sizeof(s.name), stdin) == NULL) {
-        printf("Gabim gjate leximit te emrit.\n");
-        return;
-    }
-    s.name[strcspn(s.name, "\n")] = '\0';
+    fgets(s.name, 50, stdin);
+    s.name[strcspn(s.name, "\n")] = 0;
 
-    if (strlen(s.name) == 0) {
-        printf("Emri nuk mund te jete bosh.\n");
-        return;
-    }
-
-    printf("Jep progresin (0 - 100): ");
-    if (scanf("%f", &s.progress) != 1) {
-        printf("Progresi i pavlefshem.\n");
-        clearInputBuffer();
-        return;
-    }
-
-    if (s.progress < 0 || s.progress > 100) {
-        printf("Progresi duhet te jete nga 0 deri ne 100.\n");
-        return;
+    printf("Progresi (0-100): ");
+    if (scanf("%f", &s.progress) != 1 || s.progress < 0 || s.progress > 100) {
+        printf("Progres i pavlefshem.\n"); clearInputBuffer(); return;
     }
 
     updateStatusByProgress(s.progress, &s.status);
 
     students[*count] = s;
     (*count)++;
-
-    printf("Regjistrimi u shtua me sukses.\n");
-    printf("Regjistrime aktuale: %d\n", *count);
-    printf("Kapaciteti maksimal: %d\n", MAX_STUDENTS);
+    printf("U shtua me sukses.\n");
 }
 
-void showStudents(struct Student students[], int count) {
+void showAll(struct Student students[], int count) {
     if (count == 0) {
-        printf("\nNuk ka asnje regjistrim te ruajtur.\n");
-        return;
+        printf("\nNuk ka te dhena.\n"); return;
     }
 
-    printf("\n===== LISTA E REGJISTRIMEVE =====\n");
-    printf("Numri aktual i regjistrimeve: %d\n", count);
-    printf("Kapaciteti maksimal: %d\n", MAX_STUDENTS);
-
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++)
         printStudent(students[i], i);
-    }
 }
 
-int findStudentIndexById(struct Student students[], int count, int searchId) {
-    for (int i = 0; i < count; i++) {
-        if (students[i].id == searchId) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-void showRecommendation(struct Student student) {
-    printf("\n--- Vleresim / Rekomandim ---\n");
-
-    if (student.progress == 0 && student.status == JO_AKTIV) {
-        printf("Paralajmerim: studenti nuk ka filluar ende progresin.\n");
-    } else if (student.progress > 0 && student.progress < 50 && student.status == NE_PROGRES) {
-        printf("Rekomandim: progres i ulet, nevojitet me shume pune dhe ushtrime.\n");
-    } else if (student.progress >= 50 && student.progress < 85 &&
-               (student.status == PERFUNDUAR || student.status == NE_PROGRES)) {
-        printf("Rekomandim: studenti eshte ne rruge te mire, por mund te permirësohet edhe me shume.\n");
-    } else if (student.progress >= 85 && student.status == SHKELQYESHEM) {
-        printf("Vleresim pozitiv: studenti ka performance shume te mire.\n");
-    } else {
-        printf("Kujdes: te dhenat duhen kontrolluar perseri per konsistence.\n");
-    }
-}
-
-void searchStudentById(struct Student students[], int count) {
-    if (count == 0) {
-        printf("\nNuk ka regjistrime per kerkese.\n");
-        return;
+void updateProgress(struct Student *s) {
+    float p;
+    printf("Progresi i ri: ");
+    if (scanf("%f", &p) != 1 || p < 0 || p > 100) {
+        printf("Gabim.\n"); clearInputBuffer(); return;
     }
 
-    int searchId;
-    int index;
-
-    printf("\nJep ID-ne per kerkese: ");
-    if (scanf("%d", &searchId) != 1) {
-        printf("ID i pavlefshem.\n");
-        clearInputBuffer();
-        return;
-    }
-
-    index = findStudentIndexById(students, count, searchId);
-
-    if (index == -1) {
-        printf("Nuk u gjet asnje regjistrim me kete ID.\n");
-        return;
-    }
-
-    printf("\n--- Regjistrimi u Gjet ---\n");
-    printStudent(students[index], index);
-    showRecommendation(students[index]);
-}
-
-void searchStudentByName(struct Student students[], int count) {
-    if (count == 0) {
-        printf("\nNuk ka regjistrime per kerkese.\n");
-        return;
-    }
-
-    char searchName[50];
-    int found = 0;
-
-    printf("\nJep emrin per kerkese: ");
-    clearInputBuffer();
-    if (fgets(searchName, sizeof(searchName), stdin) == NULL) {
-        printf("Gabim gjate leximit te emrit.\n");
-        return;
-    }
-
-    searchName[strcspn(searchName, "\n")] = '\0';
-
-    if (strlen(searchName) == 0) {
-        printf("Emri i kerkuar nuk mund te jete bosh.\n");
-        return;
-    }
-
-    printf("\n--- Rezultatet e Kerkimit ---\n");
-
-    for (int i = 0; i < count; i++) {
-        if (strcmp(students[i].name, searchName) == 0) {
-            printStudent(students[i], i);
-            showRecommendation(students[i]);
-            found = 1;
-        }
-    }
-
-    if (!found) {
-        printf("Nuk u gjet asnje regjistrim me emrin \"%s\".\n", searchName);
-    }
-}
-
-void searchMenu(struct Student students[], int count) {
-    int choice;
-
-    if (count == 0) {
-        printf("\nNuk ka regjistrime per kerkese.\n");
-        return;
-    }
-
-    printf("\n===== MENU KERKIMI =====\n");
-    printf("1. Kerko sipas ID-se\n");
-    printf("2. Kerko sipas emrit\n");
-    printf("Zgjedh nje opsion: ");
-
-    if (scanf("%d", &choice) != 1) {
-        printf("Input i pavlefshem.\n");
-        clearInputBuffer();
-        return;
-    }
-
-    switch (choice) {
-        case 1:
-            searchStudentById(students, count);
-            break;
-        case 2:
-            searchStudentByName(students, count);
-            break;
-        default:
-            printf("Opsion i pavlefshem ne menune e kerkimit.\n");
-    }
-}
-
-void updateStudentProgress(struct Student *student) {
-    float newProgress;
-
-    printf("\n--- Perditeso Progresin ---\n");
-    printf("Adresa e regjistrimit ne memorie: %p\n", (void*)student);
-    printf("Progresi aktual: %.2f\n", student->progress);
-    printf("Jep progresin e ri (0 - 100): ");
-
-    if (scanf("%f", &newProgress) != 1) {
-        printf("Input i pavlefshem.\n");
-        clearInputBuffer();
-        return;
-    }
-
-    if (newProgress < 0 || newProgress > 100) {
-        printf("Progresi duhet te jete nga 0 deri ne 100.\n");
-        return;
-    }
-
-    printf("Progresi para ndryshimit: %.2f\n", student->progress);
-    student->progress = newProgress;
-    updateStatusByProgress(student->progress, &student->status);
-    printf("Progresi pas ndryshimit: %.2f\n", student->progress);
-    printf("Statusi i ri: %s\n", getStatusText(student->status));
+    s->progress = p;
+    updateStatusByProgress(p, &s->status);
+    printf("U perditesua.\n");
 }
 
 void editStudent(struct Student students[], int count) {
-    int id, index, choice;
-    char newName[50];
-    float newProgress;
+    int id = 0;
+    printf("ID: ");
+    scanf("%d", &id);
 
-    if (count == 0) {
-        printf("\nNuk ka regjistrime per ndryshim.\n");
-        return;
+    int i = findIndexById(students, count, id);
+    if (i == -1) {
+        printf("Nuk u gjet.\n"); return;
     }
 
-    printf("\nJep ID-ne e studentit qe don me ndryshu: ");
-    if (scanf("%d", &id) != 1) {
-        printf("ID i pavlefshem.\n");
+    printf("1. Emri\n2. Progresi\n3. Te dyja\nZgjedh: ");
+    int ch; scanf("%d", &ch);
+
+    if (ch == 1 || ch == 3) {
+        printf("Emri i ri: ");
         clearInputBuffer();
-        return;
+        fgets(students[i].name, 50, stdin);
+        students[i].name[strcspn(students[i].name, "\n")] = 0;
     }
 
-    index = findStudentIndexById(students, count, id);
-
-    if (index == -1) {
-        printf("Nuk u gjet asnje student me kete ID.\n");
-        return;
-    }
-
-    printStudent(students[index], index);
-
-    printf("\n--- Ndrysho Regjistrimin ---\n");
-    printf("1. Ndrysho emrin\n");
-    printf("2. Ndrysho progresin\n");
-    printf("3. Ndrysho emrin dhe progresin\n");
-    printf("Zgjedh nje opsion: ");
-
-    if (scanf("%d", &choice) != 1) {
-        printf("Zgjedhje e pavlefshme.\n");
-        clearInputBuffer();
-        return;
-    }
-
-    switch (choice) {
-        case 1:
-            printf("Jep emrin e ri: ");
-            clearInputBuffer();
-            if (fgets(newName, sizeof(newName), stdin) == NULL) {
-                printf("Gabim gjate leximit te emrit.\n");
-                return;
-            }
-            newName[strcspn(newName, "\n")] = '\0';
-
-            if (strlen(newName) == 0) {
-                printf("Emri nuk mund te jete bosh.\n");
-                return;
-            }
-
-            strcpy(students[index].name, newName);
-            printf("Emri u ndryshua me sukses.\n");
-            break;
-
-        case 2:
-            updateStudentProgress(&students[index]);
-            break;
-
-        case 3:
-            printf("Jep emrin e ri: ");
-            clearInputBuffer();
-            if (fgets(newName, sizeof(newName), stdin) == NULL) {
-                printf("Gabim gjate leximit te emrit.\n");
-                return;
-            }
-            newName[strcspn(newName, "\n")] = '\0';
-
-            if (strlen(newName) == 0) {
-                printf("Emri nuk mund te jete bosh.\n");
-                return;
-            }
-
-            strcpy(students[index].name, newName);
-
-            printf("Jep progresin e ri (0 - 100): ");
-            if (scanf("%f", &newProgress) != 1) {
-                printf("Progresi i pavlefshem.\n");
-                clearInputBuffer();
-                return;
-            }
-
-            if (newProgress < 0 || newProgress > 100) {
-                printf("Progresi duhet te jete nga 0 deri ne 100.\n");
-                return;
-            }
-
-            students[index].progress = newProgress;
-            updateStatusByProgress(students[index].progress, &students[index].status);
-            printf("Emri dhe progresi u ndryshuan me sukses.\n");
-            break;
-
-        default:
-            printf("Opsion i pavlefshem per ndryshim.\n");
-    }
+    if (ch == 2 || ch == 3)
+        updateProgress(&students[i]);
 }
 
 void deleteStudent(struct Student students[], int *count) {
-    int id, index;
+    int id;
+    printf("ID per fshirje: ");
+    scanf("%d", &id);
 
-    if (*count == 0) {
-        printf("\nNuk ka regjistrime per fshirje.\n");
-        return;
+    int i = findIndexById(students, *count, id);
+    if (i == -1) {
+        printf("Nuk u gjet.\n"); return;
     }
 
-    printf("\nJep ID-ne e studentit qe don me fshi: ");
-    if (scanf("%d", &id) != 1) {
-        printf("ID i pavlefshem.\n");
-        clearInputBuffer();
-        return;
-    }
-
-    index = findStudentIndexById(students, *count, id);
-
-    if (index == -1) {
-        printf("Nuk u gjet asnje student me kete ID.\n");
-        return;
-    }
-
-    printf("\n--- Regjistrimi qe do te fshihet ---\n");
-    printStudent(students[index], index);
-
-    for (int i = index; i < *count - 1; i++) {
-        students[i] = students[i + 1];
-    }
+    for (int j = i; j < *count - 1; j++)
+        students[j] = students[j + 1];
 
     (*count)--;
-
-    printf("Regjistrimi u fshi me sukses.\n");
-    printf("Numri i ri i regjistrimeve: %d\n", *count);
+    printf("U fshi.\n");
 }
 
-void showStatistics(struct Student students[], int count) {
-    if (count == 0) {
-        printf("\nNuk ka te dhena per statistika.\n");
-        return;
+void search(struct Student students[], int count) {
+    int id;
+    printf("ID: ");
+    scanf("%d", &id);
+
+    int i = findIndexById(students, count, id);
+    if (i == -1) {
+        printf("Nuk u gjet.\n"); return;
     }
 
-    float total = 0.0f;
-    float maxProgress = students[0].progress;
-    float minProgress = students[0].progress;
-    int countJoAktiv = 0;
-    int countNeProgres = 0;
-    int countPerfunduar = 0;
-    int countShkelqyeshem = 0;
-    int completedCases = 0;
-    float average;
+    printStudent(students[i], i);
 
-    for (int i = 0; i < count; i++) {
-        total += students[i].progress;
-
-        if (students[i].progress > maxProgress) {
-            maxProgress = students[i].progress;
-        }
-
-        if (students[i].progress < minProgress) {
-            minProgress = students[i].progress;
-        }
-
-        if (students[i].status == JO_AKTIV) {
-            countJoAktiv++;
-        } else if (students[i].status == NE_PROGRES) {
-            countNeProgres++;
-        } else if (students[i].status == PERFUNDUAR) {
-            countPerfunduar++;
-            completedCases++;
-        } else if (students[i].status == SHKELQYESHEM) {
-            countShkelqyeshem++;
-            completedCases++;
-        }
-    }
-
-    average = total / count;
-
-    printf("\n===== RAPORTI ANALITIK =====\n");
-    printf("Numri total i regjistrimeve: %d\n", count);
-    printf("Rastet e perfunduara: %d\n", completedCases);
-    printf("Mesatarja e progresit: %.2f\n", average);
-    printf("Progresi me i larte: %.2f\n", maxProgress);
-    printf("Progresi me i ulet: %.2f\n", minProgress);
-    printf("Jo Aktiv: %d\n", countJoAktiv);
-    printf("Ne Progres: %d\n", countNeProgres);
-    printf("Perfunduar: %d\n", countPerfunduar);
-    printf("Shkelqyeshem: %d\n", countShkelqyeshem);
-
-    printf("\n--- Interpretimi ---\n");
-
-    if (average >= 85) {
-        printf("Mesatarja e progresit eshte shume e larte.\n");
-    } else if (average >= 50) {
-        printf("Mesatarja e progresit eshte e kenaqshme.\n");
-    } else if (average > 0) {
-        printf("Mesatarja e progresit eshte e ulet dhe kerkon permiresim.\n");
-    } else {
-        printf("Nuk ka progres te regjistruar.\n");
-    }
-
-    if (completedCases == count) {
-        printf("Te gjitha regjistrimet jane te perfunduara ose shume te mira.\n");
-    } else if (completedCases > 0) {
-        printf("Disa regjistrime jane te perfunduara, por jo te gjitha.\n");
-    } else {
-        printf("Asnje regjistrim nuk eshte perfunduar ende.\n");
-    }
-
-    if (maxProgress == minProgress) {
-        printf("Te gjitha regjistrimet kane te njejtin nivel progresi.\n");
-    } else {
-        printf("Ekziston dallim i qarte mes progresit me te larte dhe me te ulet.\n");
-    }
+    if (students[i].progress < 50)
+        printf("Rekomandim: puno ma shume.\n");
+    else if (students[i].progress > 85)
+        printf("Shkelqyeshem.\n");
 }
 
-void sortStudentsByProgress(struct Student students[], int count) {
-    if (count == 0) {
-        printf("\nNuk ka regjistrime per renditje.\n");
-        return;
+void statistics(struct Student s[], int c) {
+    if (c == 0) return;
+
+    float sum = 0, max = s[0].progress, min = s[0].progress;
+    int done = 0;
+
+    for (int i = 0; i < c; i++) {
+        sum += s[i].progress;
+        if (s[i].progress > max) max = s[i].progress;
+        if (s[i].progress < min) min = s[i].progress;
+        if (s[i].status >= PERFUNDUAR) done++;
     }
 
-    struct Student sorted[MAX_STUDENTS];
+    printf("\nMesatarja: %.2f\nMax: %.2f\nMin: %.2f\nTe perfunduara: %d\n",
+           sum/c, max, min, done);
+}
+
+void sortByProgress(struct Student s[], int c) {
     struct Student temp;
 
-    for (int i = 0; i < count; i++) {
-        sorted[i] = students[i];
-    }
-
-    for (int i = 0; i < count - 1; i++) {
-        for (int j = 0; j < count - i - 1; j++) {
-            if (sorted[j].progress < sorted[j + 1].progress) {
-                temp = sorted[j];
-                sorted[j] = sorted[j + 1];
-                sorted[j + 1] = temp;
+    for (int i = 0; i < c - 1; i++)
+        for (int j = 0; j < c - i - 1; j++)
+            if (s[j].progress < s[j+1].progress) {
+                temp = s[j];
+                s[j] = s[j+1];
+                s[j+1] = temp;
             }
-        }
-    }
 
-    printf("\n===== RANKIMI SIPAS PROGRESIT (ZBRITJESE) =====\n");
-
-    for (int i = 0; i < count; i++) {
-        printf("\nPozita #%d\n", i + 1);
-        printf("ID: %d\n", sorted[i].id);
-        printf("Emri: %s\n", sorted[i].name);
-        printf("Progresi: %.2f\n", sorted[i].progress);
-        printf("Statusi: %s\n", getStatusText(sorted[i].status));
-        printf("-----------------------------\n");
-    }
-}
-
-void showCapacityInfo(int count) {
-    printf("\n--- Informacion mbi Kapacitetin ---\n");
-    printf("Numri aktual i regjistrimeve: %d\n", count);
-    printf("Kapaciteti maksimal: %d\n", MAX_STUDENTS);
-    printf("Hapesira e lire: %d\n", MAX_STUDENTS - count);
+    printf("\n--- Rankimi ---\n");
+    showAll(s, c);
 }
 
 int main() {
     struct Student students[MAX_STUDENTS];
-    int count = 0;
-    int choice;
+    int count = 0, ch;
 
     do {
-        printf("\n========== STUDENT PROGRESS TRACKER ==========\n");
-        printf("1. Shto regjistrim\n");
-        printf("2. Shfaq te gjitha regjistrimet\n");
-        printf("3. Kerko regjistrim\n");
-        printf("4. Perditeso progresin e studentit\n");
-        printf("5. Ndrysho regjistrim\n");
-        printf("6. Fshi regjistrim\n");
-        printf("7. Shfaq raportin analitik\n");
-        printf("8. Shfaq rankimin sipas progresit\n");
-        printf("9. Shfaq kapacitetin\n");
-        printf("10. Dil\n");
-        printf("Zgjedh nje opsion: ");
+        printf("\n===== MENU =====\n");
+        printf("1.Shto\n2.Shfaq\n3.Kerko\n4.Update\n5.Edit\n6.Fshi\n7.Statistika\n8.Rendit\n9.Dil\nZgjedh: ");
 
-        if (scanf("%d", &choice) != 1) {
-            printf("Input i pavlefshem ne menu. Provo perseri.\n");
+        if (scanf("%d", &ch) != 1) {
             clearInputBuffer();
             continue;
         }
 
-        switch (choice) {
-            case 1:
-                addStudent(students, &count);
-                break;
-            case 2:
-                showStudents(students, count);
-                break;
-            case 3:
-                searchMenu(students, count);
-                break;
-            case 4:
-                updateStudentProgress;
-                updateStudentMenu: ;
-                {
-                    int id;
-                    int index;
-
-                    if (count == 0) {
-                        printf("\nNuk ka regjistrime per perditesim.\n");
-                        break;
-                    }
-
-                    printf("\nJep ID-ne e studentit qe don me perditesu: ");
-                    if (scanf("%d", &id) != 1) {
-                        printf("ID i pavlefshem.\n");
-                        clearInputBuffer();
-                        break;
-                    }
-
-                    index = findStudentIndexById(students, count, id);
-
-                    if (index == -1) {
-                        printf("Nuk u gjet asnje student me kete ID.\n");
-                        break;
-                    }
-
-                    printStudent(students[index], index);
-                    updateStudentProgress(&students[index]);
-                }
-                break;
-            case 5:
-                editStudent(students, count);
-                break;
-            case 6:
-                deleteStudent(students, &count);
-                break;
-            case 7:
-                showStatistics(students, count);
-                break;
-            case 8:
-                sortStudentsByProgress(students, count);
-                break;
-            case 9:
-                showCapacityInfo(count);
-                break;
-            case 10:
-                printf("Programi po mbyllet. Faleminderit!\n");
-                break;
-            default:
-                printf("Opsion i pavlefshem. Provo perseri.\n");
+        switch (ch) {
+            case 1: addStudent(students, &count); break;
+            case 2: showAll(students, count); break;
+            case 3: search(students, count); break;
+            case 4: {
+                int id;
+                printf("ID: "); scanf("%d", &id);
+                int i = findIndexById(students, count, id);
+                if (i != -1) updateProgress(&students[i]);
+            } break;
+            case 5: editStudent(students, count); break;
+            case 6: deleteStudent(students, &count); break;
+            case 7: statistics(students, count); break;
+            case 8: sortByProgress(students, count); break;
         }
 
-    } while (choice != 10);
+    } while (ch != 9);
 
     return 0;
 }
