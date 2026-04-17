@@ -1,0 +1,128 @@
+#include <stdio.h>
+
+#define MAX 10
+
+// ENUM për statusin
+enum Status {
+    NEVOJITET_PUNE = 1,
+    MESATAR,
+    SHKELQYESHEM
+};
+
+// STRUCT për studentin
+struct Student {
+    int id;
+    char name[30];
+    float progress;
+    enum Status status;
+};
+
+// FUNKSION për shfaqje (pointer)
+void showStudent(struct Student *s) {
+    printf("\n----------------------\n");
+    printf("ID: %d\n", s->id);
+    printf("Emri: %s\n", s->name);
+    printf("Progresi: %.2f\n", s->progress);
+
+    switch(s->status) {
+        case NEVOJITET_PUNE:
+            printf("Status: Nevojitet pune\n");
+            break;
+        case MESATAR:
+            printf("Status: Mesatar\n");
+            break;
+        case SHKELQYESHEM:
+            printf("Status: Shkelqyeshem\n");
+            break;
+        default:
+            printf("Status i panjohur\n");
+    }
+
+    printf("----------------------\n");
+}
+
+int main() {
+    struct Student students[MAX];
+    int count = 0;
+    int choice;
+
+    do {
+        printf("\n===== MENU =====\n");
+        printf("1. Shto student\n");
+        printf("2. Shfaq studentet\n");
+        printf("3. Dil\n");
+        printf("Zgjedhja: ");
+
+        scanf("%d", &choice);
+
+        // VALIDIM MENUJE
+        if (choice < 1 || choice > 3) {
+            printf("Zgjedhje e pavlefshme! Provoni perseri.\n");
+            continue;
+        }
+
+        switch(choice) {
+
+            case 1:
+                if (count >= MAX) {
+                    printf("Kapaciteti eshte i mbushur!\n");
+                    break;
+                }
+
+                printf("Shkruani ID: ");
+                scanf("%d", &students[count].id);
+
+                printf("Shkruani emrin: ");
+                scanf("%s", students[count].name);
+
+                printf("Shkruani progresin (0-100): ");
+                scanf("%f", &students[count].progress);
+
+                // SWITCH për zgjedhjen e statusit (kërkesa e re)
+                int sChoice;
+
+                printf("\nZgjidh statusin:\n");
+                printf("1. Nevojitet pune\n");
+                printf("2. Mesatar\n");
+                printf("3. Shkelqyeshem\n");
+                printf("Zgjedhja: ");
+                scanf("%d", &sChoice);
+
+                switch(sChoice) {
+                    case 1:
+                        students[count].status = NEVOJITET_PUNE;
+                        break;
+                    case 2:
+                        students[count].status = MESATAR;
+                        break;
+                    case 3:
+                        students[count].status = SHKELQYESHEM;
+                        break;
+                    default:
+                        printf("Status i pavlefshem! Vendoset automatikisht 'Mesatar'.\n");
+                        students[count].status = MESATAR;
+                }
+
+                count++;
+                printf("Studenti u shtua me sukses!\n");
+                break;
+
+            case 2:
+                if (count == 0) {
+                    printf("Nuk ka te dhena!\n");
+                } else {
+                    for (int i = 0; i < count; i++) {
+                        showStudent(&students[i]);
+                    }
+                }
+                break;
+
+            case 3:
+                printf("Duke dale...\n");
+                break;
+        }
+
+    } while (choice != 3);
+
+    return 0;
+}
