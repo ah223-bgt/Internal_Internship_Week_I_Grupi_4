@@ -1,65 +1,65 @@
-#include <stdio.h>   // library for printf and scanf
+#include <stdio.h>   // perdoret per printf dhe scanf
 
-int main() {         // start of the program
-    int a;           // integer variable
-    float b;         // float variable
+int main() {         // pika ku fillon programi
 
-    int *p1;         // pointer for integer
-    float *p2;       // pointer for float
+    int a;           // variabel numerike e tipit int
+    double b;        // variabel numerike e tipit double
 
-    int oldA;        // variable to store old integer value
-    float oldB;      // variable to store old float value
+    int *pA;         // pointer per variablen a
+    double *pB;      // pointer per variablen b
 
-    printf("Enter an integer value: ");   // asks user for integer
-    scanf("%d", &a);                      // reads integer value
+    int oldA;        // ruan vleren e vjeter te a
+    double oldB;     // ruan vleren e vjeter te b
 
-    printf("Enter a float value: ");      // asks user for float
-    scanf("%f", &b);                      // reads float value
+    printf("Shkruaj nje numer int: ");   // kerkon input per a
+    scanf("%d", &a);                     // lexon a
 
-    p1 = &a;   // assigns address of a to pointer p1
-    p2 = &b;   // assigns address of b to pointer p2
+    printf("Shkruaj nje numer double: "); // kerkon input per b
+    scanf("%lf", &b);                     // lexon b
 
-    oldA = a;  // saves original a
-    oldB = b;  // saves original b
+    pA = &a;         // pointer pA ruan adresen e a
+    pB = &b;         // pointer pB ruan adresen e b
 
-    printf("\n--- BEFORE CHANGE ---\n");   // title before change
+    oldA = a;        // ruajme vleren fillestare te a
+    oldB = b;        // ruajme vleren fillestare te b
 
-    printf("Value of a: %d\n", a);                 // direct value of a
-    printf("Address of a: %p\n", &a);              // memory address of a
-    printf("Value of a using pointer: %d\n", *p1); // value through pointer
+    printf("\n--- PARA NDRYSHIMIT ---\n");          // titull
+    printf("Vlera direkte e a: %d\n", a);           // printon a
+    printf("Adresa e a: %p\n", &a);                 // printon adresen e a
+    printf("Vlera e a permes pointer-it: %d\n", *pA); // printon a me pointer
 
-    printf("Value of b: %.2f\n", b);                 // direct value of b
-    printf("Address of b: %p\n", &b);                // memory address of b
-    printf("Value of b using pointer: %.2f\n", *p2); // value through pointer
+    printf("Vlera direkte e b: %.2lf\n", b);        // printon b
+    printf("Adresa e b: %p\n", &b);                 // printon adresen e b
+    printf("Vlera e b permes pointer-it: %.2lf\n", *pB); // printon b me pointer
 
-    *p1 = *p1 + 5;    // changes integer value through pointer
-    *p2 = *p2 + 2.5f; // changes float value through pointer
+    *pA = *pA + 5;   // ndryshon a permes pointer-it
+    *pB = *pB * 2;   // ndryshon b permes pointer-it
 
-    printf("\n--- AFTER CHANGE ---\n");   // title after change
-    printf("New value of a: %d\n", a);    // prints changed a
-    printf("New value of b: %.2f\n", b);  // prints changed b
+    printf("\n--- PAS NDRYSHIMIT ---\n");   // titull
+    printf("Vlera e re e a: %d\n", a);      // printon a pas ndryshimit
+    printf("Vlera e re e b: %.2lf\n", b);   // printon b pas ndryshimit
 
-    if (a > oldA) {   // checks if integer increased
-        printf("The integer value increased.\n");
-    } else if (a < oldA) {   // checks if integer decreased
-        printf("The integer value decreased.\n");
-    } else {   // if unchanged
-        printf("The integer value stayed the same.\n");
+    if (a > oldA) {   // kontrollon nese a eshte rritur
+        printf("Vlera perfundimtare e a eshte rritur.\n");
+    } else if (a < oldA) {   // kontrollon nese a eshte zvogeluar
+        printf("Vlera perfundimtare e a eshte zvogeluar.\n");
+    } else {   // nese eshte e njejte
+        printf("Vlera perfundimtare e a ka mbetur e njejte.\n");
     }
 
-    if (b > oldB) {   // checks if float increased
-        printf("The float value increased.\n");
-    } else if (b < oldB) {   // checks if float decreased
-        printf("The float value decreased.\n");
-    } else {   // if unchanged
-        printf("The float value stayed the same.\n");
+    if (b > oldB) {   // kontrollon nese b eshte rritur
+        printf("Vlera perfundimtare e b eshte rritur.\n");
+    } else if (b < oldB) {   // kontrollon nese b eshte zvogeluar
+        printf("Vlera perfundimtare e b eshte zvogeluar.\n");
+    } else {   // nese eshte e njejte
+        printf("Vlera perfundimtare e b ka mbetur e njejte.\n");
     }
 
-    if (a >= 0 && a <= 20) {   // checks if final integer is inside range
-        printf("Final integer value is inside the range 0 to 20.\n");
-    } else {   // if outside range
-        printf("Final integer value is outside the range 0 to 20.\n");
+    if (a >= 0 && a <= 20) {   // kontroll intervali per a
+        printf("Vlera perfundimtare e a hyn ne intervalin 0 deri 20.\n");
+    } else {
+        printf("Vlera perfundimtare e a eshte jashte intervalit 0 deri 20.\n");
     }
 
-    return 0;   // ends program successfully
+    return 0;   // perfundon programin
 }
