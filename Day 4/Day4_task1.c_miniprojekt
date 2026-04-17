@@ -1,0 +1,93 @@
+#include <stdio.h>
+
+#define MAX 5
+
+struct Regjistrim {
+    int mosha;
+    char iniciali;
+    double pike;
+    int opsioni;
+};
+
+int main() {
+
+    struct Regjistrim lista[MAX];
+    int count = 0;
+    int zgjedhja;
+
+    do {
+        printf("\n----- MENU -----\n");
+        printf("1. Shto regjistrim\n");
+        printf("2. Shfaq te gjitha\n");
+        printf("0. Dil\n");
+        printf("Zgjedhja: ");
+        scanf("%d", &zgjedhja);
+
+        switch(zgjedhja) {
+
+            case 1:
+                if(count >= MAX) {
+                    printf("Keni arritur maksimumin e regjistrimeve!\n");
+                    break;
+                }
+
+                printf("Mosha: ");
+                scanf("%d", &lista[count].mosha);
+
+                printf("Iniciali: ");
+                scanf(" %c", &lista[count].iniciali);
+
+                printf("Piket: ");
+                scanf("%lf", &lista[count].pike);
+
+                printf("Punetoria (1-3): ");
+                scanf("%d", &lista[count].opsioni);
+
+                count++;
+                printf("Regjistrimi u shtua!\n");
+                break;
+
+            case 2:
+                if(count == 0) {
+                    printf("Nuk ka regjistrime!\n");
+                    break;
+                }
+
+                printf("\n--- LISTA E REGJISTRIMEVE ---\n");
+
+                for(int i = 0; i < count; i++) {
+                    printf("\nRegjistrimi #%d\n", i + 1);
+                    printf("Iniciali: %c\n", lista[i].iniciali);
+                    printf("Mosha: %d\n", lista[i].mosha);
+                    printf("Piket: %.2lf\n", lista[i].pike);
+
+                    switch(lista[i].opsioni) {
+                        case 1:
+                            printf("Punetoria: Programim Bazik\n");
+                            break;
+                        case 2:
+                            printf("Punetoria: Algoritme\n");
+                            break;
+                        case 3:
+                            printf("Punetoria: Struktura te dhenash\n");
+                            break;
+                        default:
+                            printf("Punetoria: E pavlefshme\n");
+                    }
+
+                    printf("---------------------\n");
+                }
+                break;
+
+            case 0:
+                printf("Programi u mbyll.\n");
+                break;
+
+            default:
+                printf("Zgjedhje e pavlefshme!\n");
+        }
+
+    } while(zgjedhja != 0);
+
+    return 0;
+}
