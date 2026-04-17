@@ -1,0 +1,106 @@
+#include <stdio.h>
+
+#define MAX 10
+
+// ENUM për statusin e studentit
+enum Status {
+    NEVOJITET_PUNE,
+    MESATAR,
+    SHKELQYESHEM
+};
+
+// STRUCT për një student
+struct Student {
+    int id;
+    char name[30];
+    float progress;
+    enum Status status;
+};
+
+// FUNKSION me POINTER (shfaq studentin)
+void showStudent(struct Student *s) {
+    printf("\n----------------------\n");
+    printf("ID: %d\n", s->id);
+    printf("Emri: %s\n", s->name);
+    printf("Progresi: %.2f\n", s->progress);
+
+    if (s->status == NEVOJITET_PUNE) {
+        printf("Status: Nevojitet pune\n");
+    } 
+    else if (s->status == MESATAR) {
+        printf("Status: Mesatar\n");
+    } 
+    else {
+        printf("Status: Shkelqyeshem\n");
+    }
+    printf("----------------------\n");
+}
+
+int main() {
+    struct Student students[MAX];
+    int count = 0;
+    int choice;
+
+    do {
+        printf("\n===== MENU =====\n");
+        printf("1. Shto student\n");
+        printf("2. Shfaq studentet\n");
+        printf("3. Dil\n");
+        printf("Zgjedhja: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+
+            case 1:
+                if (count >= MAX) {
+                    printf("Kapaciteti eshte i mbushur!\n");
+                } 
+                else {
+                    printf("Shkruani ID: ");
+                    scanf("%d", &students[count].id);
+
+                    printf("Shkruani emrin: ");
+                    scanf("%s", students[count].name);
+
+                    printf("Shkruani progresin (0-100): ");
+                    scanf("%f", &students[count].progress);
+
+                    // vendosja e statusit
+                    if (students[count].progress < 50) {
+                        students[count].status = NEVOJITET_PUNE;
+                    } 
+                    else if (students[count].progress < 80) {
+                        students[count].status = MESATAR;
+                    } 
+                    else {
+                        students[count].status = SHKELQYESHEM;
+                    }
+
+                    count++;
+                    printf("Studenti u shtua me sukses!\n");
+                }
+                break;
+
+            case 2:
+                if (count == 0) {
+                    printf("Nuk ka te dhena ende!\n");
+                } 
+                else {
+                    for (int i = 0; i < count; i++) {
+                        showStudent(&students[i]);
+                    }
+                }
+                break;
+
+            case 3:
+                printf("Duke dale nga programi...\n");
+                break;
+
+            default:
+                printf("Zgjedhje e pavlefshme!\n");
+        }
+
+    } while (choice != 3);
+
+    return 0;
+}
