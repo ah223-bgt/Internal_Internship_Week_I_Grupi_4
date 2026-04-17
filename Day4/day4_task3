@@ -1,0 +1,150 @@
+#include <stdio.h>
+
+#define MAX 10
+
+enum Status {
+    NEVOJITET_PUNE = 1,
+    MESATAR,
+    SHKELQYESHEM
+};
+
+struct Student {
+    int id;
+    char name[30];
+    float progress;
+    enum Status status;
+};
+
+void showStudent(struct Student *s) {
+    printf("\n----------------------\n");
+    printf("ID: %d\n", s->id);
+    printf("Emri: %s\n", s->name);
+    printf("Progresi: %.2f\n", s->progress);
+
+    if (s->status == NEVOJITET_PUNE)
+        printf("Status: Nevojitet pune\n");
+    else if (s->status == MESATAR)
+        printf("Status: Mesatar\n");
+    else
+        printf("Status: Shkelqyeshem\n");
+}
+
+int main() {
+    struct Student students[MAX];
+    int count = 0;
+    int choice;
+
+    do {
+        printf("\n===== MENU =====\n");
+        printf("1. Shto student\n");
+        printf("2. Shfaq studentet\n");
+        printf("3. Raport\n");
+        printf("4. Dil\n");
+        printf("Zgjedhja: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+
+            case 1:
+                if (count >= MAX) {
+                    printf("Kapaciteti eshte i mbushur!\n");
+                    break;
+                }
+
+                printf("ID: ");
+                scanf("%d", &students[count].id);
+
+                printf("Emri: ");
+                scanf("%s", students[count].name);
+
+                printf("Progresi (0-100): ");
+                scanf("%f", &students[count].progress);
+
+                int sChoice;
+                printf("Zgjidh statusin (1-3): ");
+                scanf("%d", &sChoice);
+
+                if (sChoice == 1)
+                    students[count].status = NEVOJITET_PUNE;
+                else if (sChoice == 2)
+                    students[count].status = MESATAR;
+                else if (sChoice == 3)
+                    students[count].status = SHKELQYESHEM;
+                else
+                    students[count].status = MESATAR;
+
+                count++;
+                printf("U shtua me sukses!\n");
+                break;
+
+            case 2:
+                if (count == 0) {
+                    printf("Nuk ka te dhena!\n");
+                } else {
+                    for (int i = 0; i < count; i++) {
+                        showStudent(&students[i]);
+                    }
+                }
+                break;
+
+            case 3: {
+                // RAPORT ANALITIK
+
+                if (count == 0) {
+                    printf("\nNuk ka te dhena per raport!\n");
+                    break;
+                }
+
+                int total = count;
+                float sum = 0;
+                float max = students[0].progress;
+                float min = students[0].progress;
+                int completed = 0;
+
+                for (int i = 0; i < count; i++) {
+                    sum += students[i].progress;
+
+                    if (students[i].progress > max)
+                        max = students[i].progress;
+
+                    if (students[i].progress < min)
+                        min = students[i].progress;
+
+                    if (students[i].progress >= 50)
+                        completed++;
+                }
+
+                float avg = sum / count;
+
+                printf("\n===== RAPORT ANALITIK =====\n");
+                printf("Total studentet: %d\n", total);
+                printf("Mesatarja e progresit: %.2f\n", avg);
+                printf("Progresi me i larte: %.2f\n", max);
+                printf("Progresi me i ulet: %.2f\n", min);
+
+                printf("\nKlasifikimi i pergjithshem: ");
+
+                if (avg >= 80)
+                    printf("Shume nivel i larte\n");
+                else if (avg >= 50)
+                    printf("Nivel mesatar\n");
+                else
+                    printf("Nivel i ulet - nevoje per permiresim\n");
+
+                printf("Studentet e perfunduar (>=50): %d\n", completed);
+                printf("===========================\n");
+                break;
+            }
+
+            case 4:
+                printf("Duke dale...\n");
+                break;
+
+            default:
+                printf("Zgjedhje e pavlefshme!\n");
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
