@@ -3,13 +3,11 @@
 
 #define MAX 5
 
-// Enum për statusin
 enum Status {
     FAIL,
     PASS
 };
 
-// Struktura e studentit
 struct Student {
     int id;
     char name[50];
@@ -17,13 +15,13 @@ struct Student {
     enum Status status;
 };
 
-// Array për ruajtjen e studentëve
+// Array + count
 struct Student students[MAX];
 int count = 0;
 
-// Funksion për shtimin e një studenti (me pointer)
+// Shtim
 void addStudent(struct Student *s) {
-    printf("\nEnter ID: ");
+    printf("Enter ID: ");
     scanf("%d", &s->id);
 
     printf("Enter Name: ");
@@ -32,7 +30,6 @@ void addStudent(struct Student *s) {
     printf("Enter Progress: ");
     scanf("%f", &s->progress);
 
-    // Vendos statusin bazuar në progres
     if (s->progress >= 50) {
         s->status = PASS;
     } else {
@@ -40,14 +37,12 @@ void addStudent(struct Student *s) {
     }
 }
 
-// Funksion për shfaqjen e të gjithë studentëve
+// Shfaq të gjithë
 void showStudents() {
     if (count == 0) {
-        printf("\nNo student records found.\n");
+        printf("No records.\n");
         return;
     }
-
-    printf("\n===== STUDENT LIST =====\n");
 
     for (int i = 0; i < count; i++) {
         printf("\nStudent %d\n", i + 1);
@@ -63,28 +58,25 @@ void showStudents() {
     }
 }
 
-// Funksioni kryesor
 int main() {
     int choice;
 
     do {
-        printf("\n====== MENU ======\n");
+        printf("\n--- MENU ---\n");
         printf("1. Add Student\n");
-        printf("2. Show All Students\n");
+        printf("2. Show Students\n");
         printf("3. Exit\n");
-        printf("Enter choice: ");
+        printf("Choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
 
             case 1:
-                // Kontrollo nëse ka vend në array
                 if (count < MAX) {
-                    addStudent(&students[count]); // pointer përdoret këtu
+                    addStudent(&students[count]);
                     count++;
-                    printf("\nStudent added successfully!\n");
                 } else {
-                    printf("\nMaximum limit reached! Cannot add more students.\n");
+                    printf("Maximum limit reached!\n");
                 }
                 break;
 
@@ -93,11 +85,11 @@ int main() {
                 break;
 
             case 3:
-                printf("\nExiting program...\n");
+                printf("Exit...\n");
                 break;
 
             default:
-                printf("\nInvalid choice! Try again.\n");
+                printf("Invalid choice!\n");
         }
 
     } while (choice != 3);
